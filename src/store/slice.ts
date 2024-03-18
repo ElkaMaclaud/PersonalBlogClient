@@ -66,7 +66,7 @@ export const REGISTR_USER = createAsyncThunk<
   }
 >("page/REGISTR_USER", async ({ email, password }, { rejectWithValue }) => {
   try {
-    const response = await fetch("http://localhost:5000/auth/registration", {
+    const response = await fetch("https://personal-blog-server-nine.vercel.app/auth/registration", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -94,7 +94,7 @@ export const AUTH_USER = createAsyncThunk<
   }
 >("page/AUTH_USER", async ({ email, password }, { rejectWithValue }) => {
   try {
-    const response = await fetch("http://localhost:5000/auth/login", {
+    const response = await fetch("https://personal-blog-server-nine.vercel.app/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -120,7 +120,7 @@ export const FETCH_ALL_DATA = createAsyncThunk<
   { rejectValue: string; state: RootState }
 >("page/FETCH_ALL_DATA", async (_, { rejectWithValue, getState }) => {
   try {
-    const response = await fetch("http://localhost:5000/auth/get_data", {
+    const response = await fetch("https://personal-blog-server-nine.vercel.app/auth/get_data", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -143,7 +143,7 @@ export const FETCH_FILE = createAsyncThunk<
   { rejectValue: string; state: RootState }
 >("page/FETCH_FILE", async (_, { rejectWithValue, getState }) => {
   try {
-    const response = await fetch("http://localhost:5000/auth/download_resume", {
+    const response = await fetch("https://personal-blog-server-nine.vercel.app/auth/download_resume", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
