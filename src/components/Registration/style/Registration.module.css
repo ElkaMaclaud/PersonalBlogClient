@@ -1,0 +1,15 @@
+.wrapper {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	gap: 1em;
+	justify-content: center;
+	max-width: 400px;
+	margin: auto;
+	padding: 1.43em;
+	margin-top: 10%;
+}
+
+a {
+	color: blue;
+}

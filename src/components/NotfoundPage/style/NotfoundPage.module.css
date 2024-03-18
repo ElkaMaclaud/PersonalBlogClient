@@ -1,0 +1,12 @@
+.wrapperPage {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 100px;
+}
+
+.wrapperPage img {
+	max-height: 50vh;
+	border-radius: 50%;
+	object-fit: cover;
+}

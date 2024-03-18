@@ -1,0 +1,39 @@
+.registration {
+	min-width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+	align-items: center;
+}
+
+input {
+	min-width: 100%;
+	border: 1px solid #ccc;
+	border-radius: .3em;
+	outline: none;
+	padding: 10px;
+	background-color: #fff;
+}
+
+button {
+	min-width: 100%;
+	margin: 0;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: .3em;
+	cursor: pointer;
+	outline: none;
+	background-color: #EDF7FA;
+	transition: .2s ease-in-out;
+}
+button:hover {
+	background-color: #D6EDEE;
+}
+button:disabled:hover {
+  background-color: #EDF7FA;
+  cursor:default;
+}
+a {
+	text-align: center;
+	text-decoration: none;
+}

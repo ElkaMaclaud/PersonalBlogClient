@@ -1,0 +1,24 @@
+.works {
+	display: flex;
+	flex-direction: column;
+}
+.worksHeaderNew {
+	font-size: var(--padding);
+	font-weight: 400;
+	line-height: 60px;
+}
+.worksWrapper {
+	display: flex;
+	flex-direction: column;
+}
+.work {
+	width: 246px;
+	max-width: 246px;
+	height: 180px;
+	max-height: 180px;
+}
+@media screen and (max-width: 850px) {
+	.worksHeaderNew {
+		text-align: center;
+	}
+}
