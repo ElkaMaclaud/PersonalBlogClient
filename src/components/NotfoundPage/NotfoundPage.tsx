@@ -5,7 +5,7 @@ const NotfoundPage = () => {
   return (
     <div className={classes.wrapperPage}>
       <img
-        src="https://l-tech.ru/uploads/publication_post/main_image/122/full_screen_retina_e5f347c8e4.jpeg"
+        src="https://monovm.com/uploads/tinymce/Suno/2024/02/02/65bcebc3f342a-error-404-not-found.webp?1706879941049"
         alt=""
       />
     </div>

@@ -37,7 +37,7 @@
   max-width: 418px;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 957px) {
   .posts {
     margin: 0 -30px;
     padding: 0 30px 41px 30px;
@@ -45,6 +45,7 @@
 
   .postsWrapper {
     flex-wrap: wrap;
+    justify-content: center;
   }
 
   .post {

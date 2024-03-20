@@ -64,7 +64,7 @@
     object-fit: cover;
 }
 
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 957px) {
     .resume {
         width: 100%;
         flex-direction: column;

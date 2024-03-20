@@ -1,39 +1,39 @@
 .registration {
-	min-width: 100%;
-	display: flex;
-	flex-direction: column;
-	gap: 14px;
-	align-items: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
 }
 
 input {
-	min-width: 100%;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	outline: none;
-	padding: 10px;
-	background-color: #fff;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    padding: 10px;
+    background-color: #fff;
 }
 
 button {
-	min-width: 100%;
-	margin: 0;
-	padding: 8px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	cursor: pointer;
-	outline: none;
-	background-color: #EDF7FA;
-	transition: .2s ease-in-out;
+    width: 100%;
+    margin: 0;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    background-color: #edf7fa;
+    transition: 0.2s ease-in-out;
 }
 button:hover {
-	background-color: #D6EDEE;
+    background-color: #d6edee;
 }
 button:disabled:hover {
-  background-color: #EDF7FA;
-  cursor:default;
+    background-color: #edf7fa;
+    cursor: default;
 }
 a {
-	text-align: center;
-	text-decoration: none;
+    text-align: center;
+    text-decoration: none;
 }

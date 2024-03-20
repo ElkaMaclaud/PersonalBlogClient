@@ -13,8 +13,9 @@
 	gap: 27px;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 957px) {
 	.wrapperBlog {
+		margin: 0;
 		padding: 0 30px;
 		height: fit-content;
 		gap: 22px;

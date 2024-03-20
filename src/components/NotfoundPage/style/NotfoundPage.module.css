@@ -2,11 +2,12 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 100px;
+	padding: 22px;
 }
 
 .wrapperPage img {
-	max-height: 50vh;
+	max-width: 100%;
+	min-height: calc(100vh - 322px);
 	border-radius: 50%;
 	object-fit: cover;
 }

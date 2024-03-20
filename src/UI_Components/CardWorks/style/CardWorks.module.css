@@ -70,7 +70,7 @@
   overflow: hidden;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 957px) {
   .wrapperCard {
     flex-wrap: wrap;
     height: fit-content;

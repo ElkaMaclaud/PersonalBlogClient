@@ -4,7 +4,6 @@
 
 .wrapperCard {
     padding: var(--padding);
-    min-width: 100%;
     border-radius: 4px;
     background-color: #fff;
     display: flex;
@@ -20,8 +19,9 @@
 }
 
 .postDate {
+    min-width: 100%;
     display: flex;
-    gap: var(--padding);
+    gap: 10px;
     font-size: 18px;
     font-weight: 400;
     line-height: 26px;
@@ -37,21 +37,8 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-@media screen and (max-width: 900px) {
-    .postHeader {
-        font-size: 22px;
-        line-height: 32px;
-    }
-
-    .postDate {
-        gap: var(--padding);
-        font-size: 14px;
-        line-height: 22px;
-    }
-
+@media screen and (max-width: 957px) {
     .postText {
-        font-size: 14px;
-        line-height: 22px;
-        max-height: 96px;
+        -webkit-line-clamp: 5;
     }
 }
