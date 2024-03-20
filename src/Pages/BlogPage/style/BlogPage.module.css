@@ -7,19 +7,17 @@
 	margin: auto;
 	display: flex;
 	flex-direction: column;
-	gap: 27px;
+	justify-content: center;
+	max-width: 100%;
 	padding: 100px 147px;
+	gap: 27px;
 }
 
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 900px) {
 	.wrapperBlog {
-		padding: 0 50px;
+		padding: 0 30px;
 		height: fit-content;
-		margin: auto;
-		padding: 30px;
-		display: flex;
-		flex-direction: column;
-		gap: 27px;
+		gap: 22px;
 	}
 }
 

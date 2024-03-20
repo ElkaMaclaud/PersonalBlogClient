@@ -1,12 +1,9 @@
 .headerWrapper {
-    margin: auto;
     padding: 0 90px;
     height: 140px;
-    position: relative;
 }
 
 .header {
-    margin-left: auto;
     display: flex;
     justify-content: right;
     gap: 22px;

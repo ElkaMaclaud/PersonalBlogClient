@@ -35,13 +35,12 @@
 
 .post {
   max-width: 418px;
-  height: calc(418px / 1.4169);
 }
 
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 900px) {
   .posts {
-    margin: 0 -50px;
-    padding: 0 50px 41px 50px;
+    margin: 0 -30px;
+    padding: 0 30px 41px 30px;
   }
 
   .postsWrapper {
@@ -50,7 +49,7 @@
 
   .post {
     min-width: 100%;
-    height: calc((100vh + 101px) / 1.4169);
+    height: fit-content;
   }
 
   .postsHeader {

@@ -70,7 +70,7 @@
   overflow: hidden;
 }
 
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 900px) {
   .wrapperCard {
     flex-wrap: wrap;
     height: fit-content;
@@ -82,34 +82,24 @@
   }
   .worksDescription {
     height: 50%;
+    gap: 22px;
+    text-align: center;
+  }
+  .worksDate {
+    justify-content: center;
   }
 
   .wrapperCardImg img {
-    border-radius: 1em;
-  }
-  .worksHeader {
-    font-size: 4em;
-    line-height: 2em;
+    border-radius: 14px;
   }
 
   .worksYear {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-    min-height: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 28px;
   }
   .worksDate {
     align-items: center;
-    gap: 2em;
-    font-size: 1.5em;
-    line-height: 1.5em;
-  }
-  .worksLabel {
-    font-size: 1.4em;
-  }
-  .worksText {
-    font-size: 2.2em;
-    line-height: 2em;
-    max-height: 8em;
   }
 }

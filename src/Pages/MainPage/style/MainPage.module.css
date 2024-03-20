@@ -1,9 +1,7 @@
 .wrapperPage {
-    width: 1152px;
-    max-width: 1152px;
     display: flex;
     flex-direction: column;
-    margin: auto;
+    max-width: 100%;
 }
 
 .header {
@@ -13,7 +11,6 @@
 }
 
 .content {
-    min-height: calc(100vh - (70px + 184px));
     flex-grow: 1;
 }
 
