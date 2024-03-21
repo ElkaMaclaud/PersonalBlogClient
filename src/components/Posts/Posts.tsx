@@ -4,7 +4,7 @@ import { CardPost } from "../../UI_Components";
 import { useAppSelector } from "../../store/reduxHooks";
 
 const Posts = () => {
-  const posts = useAppSelector((state) => state.page.data.posts);
+  const posts = useAppSelector((state) => state.page.data[0].posts);
   return (
     <div className={classes.posts}>
       <div className={classes.postsHeader}>

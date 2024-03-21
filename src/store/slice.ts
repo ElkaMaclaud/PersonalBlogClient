@@ -38,7 +38,7 @@ export interface IInitialState {
   token: string | null;
   showModal: boolean;
   user: IAuthorization;
-  data: IData;
+  data: IData[];
 }
 const state: IInitialState = {
   transition: false,
@@ -47,16 +47,16 @@ const state: IInitialState = {
   token: localStorage.getItem("access_token"),
   showModal: false,
   user: { email: "", password: "" },
-  data: {
+  data: [{
     resume: {
       name: "",
       avatar: "",
       profession: "",
       description: "",
-    },
+    }, 
     posts: [],
     works: [],
-  },
+  }],
 };
 export const REGISTR_USER = createAsyncThunk<
   { success: boolean; message: string },
@@ -115,7 +115,7 @@ export const AUTH_USER = createAsyncThunk<
   }
 });
 export const FETCH_ALL_DATA = createAsyncThunk<
-  { success: boolean; message: string; data: IData },
+  { success: boolean; message: string; data: IData[] },
   undefined,
   { rejectValue: string; state: RootState }
 >("page/FETCH_ALL_DATA", async (_, { rejectWithValue, getState }) => {
@@ -216,15 +216,17 @@ const slice = createSlice({
     });
     builder.addCase(FETCH_ALL_DATA.fulfilled, (state, action) => {
       return {
-        ...state,
-        success: true,
-        message: action.payload.message,
-        showModal: true,
-        data: {
-          resume: action.payload.data.resume || state.data.resume,
-          posts: action.payload.data.posts || [],
-          works: action.payload.data.works || [],
-        },
+          ...state,
+          success: true,
+          message: action.payload.message,
+          showModal: true,
+          data: [
+              {
+                  resume: action.payload.data[0].resume || state.data[0].resume,
+                  posts: action.payload.data[0].posts || [],
+                  works: action.payload.data[0].works || [],
+              },
+          ],
       };
     });
     builder.addCase(FETCH_ALL_DATA.rejected, (state, action) => {

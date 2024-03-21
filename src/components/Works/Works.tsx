@@ -4,7 +4,7 @@ import { CardWorks } from "../../UI_Components"
 import { useAppSelector } from "../../store/reduxHooks"
 
 const Works = () => {
-	const works = useAppSelector(state => state.page.data.works)
+	const works = useAppSelector(state => state.page.data[0].works)
 	return (
 		<div className={classes.works}>
 			<div className={classes.worksHeaderNew}>Featured works</div>
