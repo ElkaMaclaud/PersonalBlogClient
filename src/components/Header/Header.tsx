@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const Header = () => {
   const ref = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(false);
-  const list = ["Works", "Blog", "Contact"];
+  const list = ["works", "blog", "contact"];
   return (
     <div className={classes.headerWrapper}>
       <div className={classes.header}>
@@ -26,7 +26,7 @@ const Header = () => {
         {list.map((link) => {
           return (
             <Link to={`/${link}`} key={link}>
-              {link}
+              {link[0].toUpperCase() + link.slice(1)}
             </Link>
           );
         })}

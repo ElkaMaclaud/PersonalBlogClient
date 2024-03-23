@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../store/reduxHooks";
 import {
   AUTH_USER,
   REGISTR_USER,
-  SET_TRANSISION,
+  SET_TRANSITION,
   SET_USER_DATA,
 } from "../../store/slice";
 import { useNavigate } from "react-router-dom";
@@ -35,7 +35,7 @@ const RegistrationForm: FC<{ action: string }> = ({ action }) => {
   };
   useEffect(() => {
     if (success && transition) {
-      dispatch(SET_TRANSISION(false));
+      dispatch(SET_TRANSITION(false));
       navigate("/auth");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,7 +48,6 @@ const RegistrationForm: FC<{ action: string }> = ({ action }) => {
       <form className={classes.registration} onSubmit={handleClick}>
         <input
           value={formData.email}
-          name="email"
           onChange={(event) =>
             setFormData((user) => ({
               ...user,
@@ -60,7 +59,6 @@ const RegistrationForm: FC<{ action: string }> = ({ action }) => {
         />
         <input
           value={formData.password}
-          name="password"
           onChange={(event) =>
             setFormData((user) => ({
               ...user,
@@ -71,6 +69,7 @@ const RegistrationForm: FC<{ action: string }> = ({ action }) => {
           placeholder="Введите пароль..."
         />
         <button
+          type="submit"
           className={classes.registration__btn}
           disabled={!formData.email || !formData.password}
         >

@@ -11,7 +11,7 @@ export const Modal = () => {
   const ref = useRef<HTMLDivElement>(null);
   const node = document.querySelector("#react_modal");
 
-  useLayoutEffect(() => {
+   useLayoutEffect(() => {
     setTimeout(() => dispatch(SET_SHOWMODAL(false)), 900);
   }, [dispatch]);
 

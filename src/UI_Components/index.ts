@@ -1,3 +1,4 @@
+export { Arrow } from "./Arrow/Arrow";
 export { Burger } from "./Burger/Burger";
 export { CardPost } from "./CardPost/CardPost";
 export { CardWorks } from "./CardWorks/CardWorks";
