@@ -9,6 +9,7 @@
   font-size: 16px;
   height: 60px;
   position: absolute;
+  background-color: #fff;
   top: 8%;
   left: calc(100vw / 2 - 125px);
   padding: 10px;

@@ -3,7 +3,8 @@
     flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	padding: 22px;
+    padding: 22px;
+	gap: 22px;
 }
 .pageLink {
     margin-top: 30px;
