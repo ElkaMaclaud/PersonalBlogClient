@@ -5,15 +5,16 @@ import { useAppSelector } from "../store/reduxHooks";
 const PrivateRoute: FC<{ children: ReactNode }> = ({
     children,
 }): JSX.Element | null => {
-	const page = useAppSelector((state) => state.page.page);
+    const page = useAppSelector((state) => state.page.page);
     const navigate = useNavigate();
 
     useEffect(() => {
         if (page === "COMPLICATED") {
-            navigate("/home", { replace: true });
+            // window.history.replaceState(null, "", "/home");
+            navigate("/home", {replace: true});
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page]);
+    }, []);
     return <Fragment>{children}</Fragment>;
 };
 

@@ -18,9 +18,7 @@ function App() {
     const dispatch = useAppDispatch();
     useEffect(() => {
         if (page === "LOGIN") {
-            token !== null
-                ? navigate("/auth", { replace: true })
-                : navigate("/registration", { replace: true });
+            token !== null ? navigate("/auth") : navigate("/registration");
         } else if (page === "LOADING") {
             dispatch(FETCH_ALL_DATA());
         }
@@ -40,6 +38,7 @@ function App() {
             <PrivateRoute>
                 <Routes>
                     <Route path={"/"} element={<MainPage />}>
+                        <Route path="/" element={<NotfoundPage />} />
                         {Object.keys(routes).map((route) => {
                             return (
                                 <Route
