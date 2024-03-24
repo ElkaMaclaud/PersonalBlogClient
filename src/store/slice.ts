@@ -39,7 +39,7 @@ export interface IInitialState {
     showModal: boolean;
     user: IAuthorization;
     data: IData[];
-    page: "LOADING" | "COMPLICATED" | "LOGIN" | "REGISTRATION";
+    page: "LOADING" | "COMPLICATED" | "LOGIN";
 }
 const state: IInitialState = {
     transition: false,
@@ -60,7 +60,7 @@ const state: IInitialState = {
             works: [],
         },
     ],
-    page: "LOGIN",
+    page: "LOADING",
 };
 export const REGISTR_USER = createAsyncThunk<
     { success: boolean; message: string },
@@ -258,6 +258,7 @@ const slice = createSlice({
                 showModal: true,
                 message: action.payload as string,
                 token: "",
+                page: "LOGIN",
             };
         });
     },

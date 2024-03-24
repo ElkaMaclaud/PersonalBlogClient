@@ -8,15 +8,14 @@ import MainPage from "./Pages/MainPage/MainPage";
 import BlogPage from "./Pages/BlogPage/BlogPage";
 import PrivateRoute from "./HOC/PrivateRoute";
 import LoadingPage from "./Pages/LoadingPAge/LoadingPage";
-import { FETCH_ALL_DATA } from "./store/slice";
 import AuthPage from "./Pages/AuthPage/AuthPage";
 import InaccessiblePage from "./components/InaccessiblePage/InaccessiblePage";
+import { FETCH_ALL_DATA } from "./store/slice";
 
 function App() {
     const { page, token } = useAppSelector((state) => state.page);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-
     useEffect(() => {
         if (page === "LOGIN") {
             token !== null
@@ -26,7 +25,7 @@ function App() {
             dispatch(FETCH_ALL_DATA());
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [token]);
+    }, [page, dispatch]);
     interface Elements {
         [key: string]: ReactElement;
     }

@@ -15,7 +15,11 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
                 {list &&
                     list.map((link) => {
                         return (
-                            <Link to={`/${link}`} key={link}>
+                            <Link
+                                to={`/${link}`}
+                                key={link}
+                                className={classes.link}
+                            >
                                 {link[0].toUpperCase() + link.slice(1)}
                             </Link>
                         );
