@@ -10,8 +10,8 @@ const PrivateRoute: FC<{ children: ReactNode }> = ({
 
     useEffect(() => {
         if (page === "COMPLICATED") {
-            // window.history.replaceState(null, "", "/home");
-            navigate("/home", {replace: true});
+            // window.history.replaceState(null, "", "/blog");
+            navigate("/blog", {replace: true});
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

@@ -29,9 +29,8 @@ function App() {
     }
     if (page === "COMPLICATED") {
         const routes: Elements = {
-            home: <BlogPage />,
             works: <NotfoundPage />,
-            blog: <NotfoundPage />,
+            blog: <BlogPage />,
             contact: <NotfoundPage />,
         };
         return (

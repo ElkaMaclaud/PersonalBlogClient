@@ -251,13 +251,11 @@ const slice = createSlice({
             };
         });
         builder.addCase(FETCH_ALL_DATA.rejected, (state, action) => {
-            localStorage.setItem("access_token", "");
             return {
                 ...state,
                 success: false,
                 showModal: true,
                 message: action.payload as string,
-                token: "",
                 page: "LOGIN",
             };
         });
