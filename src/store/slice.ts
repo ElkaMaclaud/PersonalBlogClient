@@ -13,6 +13,7 @@ export type IResume = {
     description: string;
 };
 export type IPost = {
+    id: string;
     header: string;
     date: string;
     category: string;
@@ -148,6 +149,32 @@ export const FETCH_ALL_DATA = createAsyncThunk<
         }
     } catch (error) {
         return rejectWithValue(`${error}`);
+    }
+});
+export const FETCH_POST = createAsyncThunk<
+    { success: boolean; message: string; data: IPost },
+    string,
+    { rejectValue: { message: string }; state: RootState }
+>("page/FETCH_POST", async (postId, { rejectWithValue, getState }) => {
+    try {
+        const response = await fetch(
+            `https://personal-blog-server-nine.vercel.app/auth/getPost/${postId}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${getState().page.token}`,
+                },
+            }
+        );
+        const data = await response.json();
+        if (data.success) {
+            return data;
+        } else {
+            throw new Error(data.message);
+        }
+    } catch (error) {
+        return rejectWithValue({ message: error instanceof Error ? error.message : 'Неизвестная ошибка' });
     }
 });
 export const FETCH_FILE = createAsyncThunk<

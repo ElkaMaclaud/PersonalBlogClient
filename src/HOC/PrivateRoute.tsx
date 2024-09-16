@@ -10,11 +10,19 @@ const PrivateRoute: FC<{ children: ReactNode }> = ({
 
     useEffect(() => {
         if (page === "COMPLICATED") {
-            // window.history.replaceState(null, "", "/blog");
-            navigate("/blog", {replace: true});
+            navigate("/blog", { replace: true });
+            window.history.pushState(null, "", window.location.href);
+            window.onpopstate = function (event) {
+                const currentPath = window.location.pathname;
+                if (currentPath === "/registration" || currentPath === "/auth") {
+                    // window.history.replaceState(null, "", "/blog");
+                    navigate("/blog");
+                }
+            };
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
     return <Fragment>{children}</Fragment>;
 };
 

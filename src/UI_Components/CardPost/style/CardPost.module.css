@@ -10,6 +10,11 @@
     flex-direction: column;
     justify-content: space-between;
     gap: 26.5px;
+    transition: transform .4s ease-in-out;
+}
+
+.wrapperCard:hover {
+    transform: translate3D(-7px, -7px, 7px);;
 }
 
 .postHeader {
@@ -33,12 +38,14 @@
     line-height: 24px;
     max-height: 96px;
     display: -webkit-box;
+    line-clamp: 4;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 @media screen and (max-width: 957px) {
     .postText {
+        line-clamp: 5;
         -webkit-line-clamp: 5;
     }
 }

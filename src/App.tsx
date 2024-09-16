@@ -11,6 +11,7 @@ import LoadingPage from "./Pages/LoadingPAge/LoadingPage";
 import AuthPage from "./Pages/AuthPage/AuthPage";
 import InaccessiblePage from "./components/InaccessiblePage/InaccessiblePage";
 import { FETCH_ALL_DATA } from "./store/slice";
+import PostPage from "./Pages/PostPage/PostPage";
 
 function App() {
     const { page, token } = useAppSelector((state) => state.page);
@@ -29,6 +30,7 @@ function App() {
     }
     if (page === "COMPLICATED") {
         const routes: Elements = {
+            post: <PostPage />,
             works: <NotfoundPage />,
             blog: <BlogPage />,
             contact: <NotfoundPage />,
@@ -39,6 +41,15 @@ function App() {
                     <Route path={"/"} element={<MainPage />}>
                         <Route path="/" element={<NotfoundPage />} />
                         {Object.keys(routes).map((route) => {
+                            if (route === "post") {
+                                return (
+                                    <Route
+                                        key={Math.random().toString(36)}
+                                        path={`${route}/:id`}
+                                        element={routes[route]}
+                                    />
+                                );
+                            }
                             return (
                                 <Route
                                     key={Math.random().toString(36)}

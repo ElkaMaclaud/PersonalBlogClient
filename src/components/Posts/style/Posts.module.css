@@ -21,7 +21,7 @@
 	font-weight: 400;
 	color: #00A8CC;
 	cursor: pointer;
-	transition: .2s ease-in-out;
+	transition: .4s ease-in-out;
 }
 
 .postsHeaderAll:hover {
@@ -34,7 +34,12 @@
 }
 
 .post {
+  color: black;
+  cursor: pointer;
+  background: radial-gradient(circle, rgba(229, 221, 221, 0.2), rgba(229, 221, 221, 0) 70%);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
   max-width: 418px;
+  border-radius: 5px;
 }
 
 @media screen and (max-width: 957px) {
