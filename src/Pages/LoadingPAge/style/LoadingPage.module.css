@@ -33,8 +33,8 @@
 
 .circle {
     --in: 80%;
-    --ar: #ff9800;
-    --dt: #ffea34;
+    --ar: #80c7f4;
+    --dt: #edf7fa;
     --shadow: drop-shadow(0vmin 0vmin 0.5vmin #000)
         drop-shadow(0vmin 1vmin 0.5vmin #0004);
     --cross: linear-gradient(
