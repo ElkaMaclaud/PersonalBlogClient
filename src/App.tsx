@@ -42,7 +42,7 @@ function App() {
             <PrivateRoute>
                 <Routes>
                     <Route path={"/"} element={<MainPage />}>
-                        <Route path="/" element={<NotfoundPage />} />
+                        <Route path="/" element={<BlogPage />} />
                         {Object.keys(routes).map((route) => {
                              if (route === "work") {
                                 return (
