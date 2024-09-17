@@ -133,13 +133,13 @@ export const AUTH_USER = createAsyncThunk<
     }
 });
 export const FETCH_ALL_DATA = createAsyncThunk<
-    { success: boolean; message: string; data: IData[] },
+    { success: boolean; message: string; data: IData },
     undefined,
     { rejectValue: string; state: RootState }
 >("page/FETCH_ALL_DATA", async (_, { rejectWithValue, getState }) => {
     try {
         const response = await fetch(
-            "https://personal-blog-server-nine.vercel.app/auth/get_data",
+            "https://personal-blog-server-nine.vercel.app/auth/getData",
             {
                 method: "GET",
                 headers: {
@@ -275,7 +275,7 @@ export const FETCH_FILE = createAsyncThunk<
 >("page/FETCH_FILE", async (_, { rejectWithValue, getState }) => {
     try {
         const response = await fetch(
-            "https://personal-blog-server-nine.vercel.app/auth/download_resume",
+            "https://personal-blog-server-nine.vercel.app/auth/downloadResume",
             {
                 method: "GET",
                 headers: {
@@ -386,9 +386,9 @@ const slice = createSlice({
                 message: action.payload.message,
                 showModal: true,
                 data: {
-                    resume: action.payload.data[0].resume || state.data.resume,
-                    posts: action.payload.data[0].posts || [],
-                    works: action.payload.data[0].works || [],
+                    resume: action.payload.data.resume || state.data.resume,
+                    posts: action.payload.data.posts || [],
+                    works: action.payload.data.works || [],
                 },
                 page: "COMPLICATED",
             };
