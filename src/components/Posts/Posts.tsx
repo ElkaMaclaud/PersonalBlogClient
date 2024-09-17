@@ -14,7 +14,7 @@ const Posts = () => {
             </div>
             <div className={classes.postsWrapper}>
                 {posts.length > 0 &&
-                    posts.map((post) => {
+                    posts.slice(0, 2).map((post) => {
                         const key = Math.random().toString(30).substring(2, 15);
                         return (
                             <Link to={`/post/${post.id}`} key={key}>
