@@ -3,6 +3,7 @@
 }
 
 .wrapperCard {
+  color: black;
   cursor: pointer;
   padding: var(--padding) 0;
   height: fit-content;
@@ -35,6 +36,7 @@
 }
 
 .worksDescription {
+  text-align: left;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

@@ -5,7 +5,7 @@ import { FETCH_FILE } from "../../store/slice";
 
 const Resume = () => {
   const { name, avatar, file, profession, description } = useAppSelector(
-    (state) => state.page.data[0].resume
+    (state) => state.page.data.resume
   );
   const dispatch = useAppDispatch();
   const handleDownloadClick = async (

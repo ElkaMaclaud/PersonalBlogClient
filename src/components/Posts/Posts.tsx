@@ -5,7 +5,7 @@ import { useAppSelector } from "../../store/reduxHooks";
 import { Link } from "react-router-dom";
 
 const Posts = () => {
-    const posts = useAppSelector((state) => state.page.data[0].posts);
+    const posts = useAppSelector((state) => state.page.data.posts);
     return (
         <div className={classes.posts}>
             <div className={classes.postsHeader}>

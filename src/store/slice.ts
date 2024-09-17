@@ -20,6 +20,7 @@ export type IPost = {
     description: string;
 };
 export type IWorks = {
+    id: string;
     header: string;
     image: string;
     date: string;
@@ -39,7 +40,7 @@ export interface IInitialState {
     token: string | null;
     showModal: boolean;
     user: IAuthorization;
-    data: IData[];
+    data: IData;
     page: "LOADING" | "COMPLICATED" | "LOGIN";
 }
 const state: IInitialState = {
@@ -49,8 +50,7 @@ const state: IInitialState = {
     token: localStorage.getItem("access_token"),
     showModal: false,
     user: { email: "", password: "" },
-    data: [
-        {
+    data: {
             resume: {
                 name: "",
                 avatar: "",
@@ -60,8 +60,7 @@ const state: IInitialState = {
             posts: [],
             works: [],
         },
-    ],
-    page: "LOADING",
+       page: "LOADING",
 };
 export const REGISTR_USER = createAsyncThunk<
     { success: boolean; message: string },
@@ -177,6 +176,58 @@ export const FETCH_POST = createAsyncThunk<
         return rejectWithValue({ message: error instanceof Error ? error.message : 'Неизвестная ошибка' });
     }
 });
+export const FETCH_WORKS = createAsyncThunk<
+    { success: boolean; message: string; data: IWorks[] },
+    undefined,
+    { rejectValue: string; state: RootState }
+>("page/FETCH_WORKS", async (_, { rejectWithValue, getState }) => {
+    try {
+        const response = await fetch(
+            `https://personal-blog-server-nine.vercel.app/auth/getWorks`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${getState().page.token}`,
+                },
+            }
+        );
+        const data = await response.json();
+        if (data.success) {
+            return data;
+        } else {
+            throw new Error(data.message);
+        }
+    } catch (error) {
+        return rejectWithValue(`${error}`);
+    }
+});
+export const FETCH_WORK = createAsyncThunk<
+    { success: boolean; message: string; data: IWorks },
+    string,
+    { rejectValue: { message: string }; state: RootState }
+>("page/FETCH_WORK", async (workId, { rejectWithValue, getState }) => {
+    try {
+        const response = await fetch(
+            `https://personal-blog-server-nine.vercel.app/auth/getWork/${workId}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${getState().page.token}`,
+                },
+            }
+        );
+        const data = await response.json();
+        if (data.success) {
+            return data;
+        } else {
+            throw new Error(data.message);
+        }
+    } catch (error) {
+        return rejectWithValue({ message: error instanceof Error ? error.message : 'Неизвестная ошибка' });
+    }
+});
 export const FETCH_FILE = createAsyncThunk<
     any,
     undefined,
@@ -265,15 +316,13 @@ const slice = createSlice({
                 success: true,
                 message: action.payload.message,
                 showModal: true,
-                data: [
-                    {
+                data: {
                         resume:
                             action.payload.data[0].resume ||
-                            state.data[0].resume,
+                            state.data.resume,
                         posts: action.payload.data[0].posts || [],
                         works: action.payload.data[0].works || [],
                     },
-                ],
                 page: "COMPLICATED",
             };
         });
@@ -284,6 +333,26 @@ const slice = createSlice({
                 showModal: true,
                 message: action.payload as string,
                 page: "LOGIN",
+            };
+        });
+        builder.addCase(FETCH_WORKS.fulfilled, (state, action) => {
+            return {
+                ...state,
+                success: true,
+                message: action.payload.message,
+                showModal: true,
+                data: {
+                    ...state.data,
+                    works: action.payload.data,
+                }
+            };
+        });
+        builder.addCase(FETCH_WORKS.rejected, (state, action) => {
+            return {
+                ...state,
+                success: false,
+                showModal: true,
+                message: action.payload as string,
             };
         });
     },
