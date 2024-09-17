@@ -10,7 +10,7 @@ const Posts = () => {
         <div className={classes.posts}>
             <div className={classes.postsHeader}>
                 <div className={classes.postsHeaderNew}>Recent posts</div>
-                <div className={classes.postsHeaderAll}>View all</div>
+                <Link to="/posts"><div className={classes.postsHeaderAll}>View all</div></Link>
             </div>
             <div className={classes.postsWrapper}>
                 {posts.length > 0 &&

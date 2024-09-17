@@ -3,6 +3,7 @@
 }
 
 .wrapperCard {
+    color: black;
     padding: var(--padding);
     border-radius: 4px;
     background-color: #fff;

@@ -27,6 +27,13 @@ export type IWorks = {
     category: string;
     description: string;
 };
+export type IContact = {
+    phone: number;
+    website: string;
+    adress: string;
+    git: string;
+    socialMedia: string;
+};
 export type IData = {
     resume: IResume;
     posts: IPost[];
@@ -41,6 +48,7 @@ export interface IInitialState {
     showModal: boolean;
     user: IAuthorization;
     data: IData;
+    contact?: IContact;
     page: "LOADING" | "COMPLICATED" | "LOGIN";
 }
 const state: IInitialState = {
@@ -51,16 +59,16 @@ const state: IInitialState = {
     showModal: false,
     user: { email: "", password: "" },
     data: {
-            resume: {
-                name: "",
-                avatar: "",
-                profession: "",
-                description: "",
-            },
-            posts: [],
-            works: [],
+        resume: {
+            name: "",
+            avatar: "",
+            profession: "",
+            description: "",
         },
-       page: "LOADING",
+        posts: [],
+        works: [],
+    },
+    page: "LOADING",
 };
 export const REGISTR_USER = createAsyncThunk<
     { success: boolean; message: string },
@@ -150,6 +158,32 @@ export const FETCH_ALL_DATA = createAsyncThunk<
         return rejectWithValue(`${error}`);
     }
 });
+export const FETCH_POSTS = createAsyncThunk<
+    { success: boolean; message: string; data: IPost[] },
+    undefined,
+    { rejectValue: string; state: RootState }
+>("page/FETCH_POSTS", async (_, { rejectWithValue, getState }) => {
+    try {
+        const response = await fetch(
+            `https://personal-blog-server-nine.vercel.app/auth/getPosts`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${getState().page.token}`,
+                },
+            }
+        );
+        const data = await response.json();
+        if (data.success) {
+            return data;
+        } else {
+            throw new Error(data.message);
+        }
+    } catch (error) {
+        return rejectWithValue(`${error}`);
+    }
+});
 export const FETCH_POST = createAsyncThunk<
     { success: boolean; message: string; data: IPost },
     string,
@@ -173,7 +207,10 @@ export const FETCH_POST = createAsyncThunk<
             throw new Error(data.message);
         }
     } catch (error) {
-        return rejectWithValue({ message: error instanceof Error ? error.message : 'Неизвестная ошибка' });
+        return rejectWithValue({
+            message:
+                error instanceof Error ? error.message : "Неизвестная ошибка",
+        });
     }
 });
 export const FETCH_WORKS = createAsyncThunk<
@@ -225,7 +262,10 @@ export const FETCH_WORK = createAsyncThunk<
             throw new Error(data.message);
         }
     } catch (error) {
-        return rejectWithValue({ message: error instanceof Error ? error.message : 'Неизвестная ошибка' });
+        return rejectWithValue({
+            message:
+                error instanceof Error ? error.message : "Неизвестная ошибка",
+        });
     }
 });
 export const FETCH_FILE = createAsyncThunk<
@@ -254,11 +294,40 @@ export const FETCH_FILE = createAsyncThunk<
         return rejectWithValue(`${error}`);
     }
 });
+export const FETCH_CONTACT = createAsyncThunk<
+    { success: boolean; message: string; data: IContact },
+    undefined,
+    { rejectValue: string; state: RootState }
+>("page/FETCH_CONTACT", async (_, { rejectWithValue, getState }) => {
+    try {
+        const response = await fetch(
+            `https://personal-blog-server-nine.vercel.app/auth/getContact`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${getState().page.token}`,
+                },
+            }
+        );
+        const data = await response.json();
+        if (data.success) {
+            return data;
+        } else {
+            throw new Error(data.message);
+        }
+    } catch (error) {
+        return rejectWithValue(`${error}`);
+    }
+});
 
 const slice = createSlice({
     name: "Page",
     initialState: state,
     reducers: {
+        SET_PAGE: (state, action) => {
+            state.page = action.payload
+        },
         SET_SHOWMODAL: (state, action) => {
             state.showModal = action.payload;
         },
@@ -317,12 +386,10 @@ const slice = createSlice({
                 message: action.payload.message,
                 showModal: true,
                 data: {
-                        resume:
-                            action.payload.data[0].resume ||
-                            state.data.resume,
-                        posts: action.payload.data[0].posts || [],
-                        works: action.payload.data[0].works || [],
-                    },
+                    resume: action.payload.data[0].resume || state.data.resume,
+                    posts: action.payload.data[0].posts || [],
+                    works: action.payload.data[0].works || [],
+                },
                 page: "COMPLICATED",
             };
         });
@@ -344,7 +411,7 @@ const slice = createSlice({
                 data: {
                     ...state.data,
                     works: action.payload.data,
-                }
+                },
             };
         });
         builder.addCase(FETCH_WORKS.rejected, (state, action) => {
@@ -355,8 +422,37 @@ const slice = createSlice({
                 message: action.payload as string,
             };
         });
+        builder.addCase(FETCH_POSTS.fulfilled, (state, action) => {
+            return {
+                ...state,
+                success: true,
+                message: action.payload.message,
+                showModal: true,
+                data: {
+                    ...state.data,
+                    posts: action.payload.data,
+                },
+            };
+        });
+        builder.addCase(FETCH_POSTS.rejected, (state, action) => {
+            return {
+                ...state,
+                success: false,
+                showModal: true,
+                message: action.payload as string,
+            };
+        });
+        builder.addCase(FETCH_CONTACT.fulfilled, (state, action) => {
+            return {
+                ...state,
+                success: true,
+                showModal: true,
+                message: action.payload.message,
+                contact: action.payload.data
+            };
+        });
     },
 });
 
-export const { SET_SHOWMODAL, SET_USER_DATA, SET_TRANSITION } = slice.actions;
+export const { SET_PAGE, SET_SHOWMODAL, SET_USER_DATA, SET_TRANSITION } = slice.actions;
 export default slice.reducer;

@@ -1,0 +1,28 @@
+.wrapperContact {
+    width: 100%;
+    height: calc(100vh - 370px);
+    margin: 50px;
+	padding: 41px 147px 41px 147px;
+	background-color: #EDF7FA;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    font-size: 20px;
+	line-height: 60px;
+	font-weight: 400;
+}
+
+.contactInfo {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+}
+
+.contactInfo span:first-child {
+    color: #8695a4
+}
+
+.contactInfo span:last-child {
+    font-weight: 600;
+}

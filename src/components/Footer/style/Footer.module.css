@@ -10,13 +10,19 @@
 .footerContacts {
 	display: flex;
 	gap: 22px;
+	height: 30px;
 }
 
 .footerContacts * {
 	cursor: pointer;
+	transition: .2s ease-in-out;
 }
 
-/* .footerContacts *:hover {} */
+.footerContacts *:hover {
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+	background-color: rgba(0, 0, 0, 0.2);
+	border-radius: 5px;
+}
 
 .footerInfo {
 	font-size: 14px;

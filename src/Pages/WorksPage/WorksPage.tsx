@@ -1,10 +1,15 @@
-import React, { Fragment } from 'react'
-import { useAppSelector } from '../../store/reduxHooks'
+import React, { Fragment, useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from '../../store/reduxHooks'
 import { CardWorks } from '../../UI_Components'
 import { Link } from 'react-router-dom'
+import { FETCH_WORKS } from '../../store/slice'
 
 const WorksPage = () => {
     const works = useAppSelector(state => state.page.data.works)
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+      dispatch(FETCH_WORKS())
+    }, [dispatch])
   return (
     <Fragment>
      {works.map((work) => {

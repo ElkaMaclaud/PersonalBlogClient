@@ -14,6 +14,8 @@ import { FETCH_ALL_DATA } from "./store/slice";
 import PostPage from "./Pages/PostPage/PostPage";
 import WorksPage from "./Pages/WorksPage/WorksPage";
 import WorkPage from "./Pages/WorkPage/WorkPage";
+import PostsPage from "./Pages/PostsPage/PostsPage";
+import ContactPage from "./Pages/ContactPage/ContactPage";
 
 function App() {
     const { page, token } = useAppSelector((state) => state.page);
@@ -34,9 +36,10 @@ function App() {
         const routes: Elements = {
             post: <PostPage />,
             work: <WorkPage />,
+            posts: <PostsPage />,
             works: <WorksPage />,
             blog: <BlogPage />,
-            contact: <NotfoundPage />,
+            contact: <ContactPage />,
         };
         return (
             <PrivateRoute>
