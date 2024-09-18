@@ -40,6 +40,8 @@ export type IData = {
     works: IWorks[];
 };
 
+export type ResponseType = { success: boolean; message: string };
+
 export interface IInitialState {
     transition: boolean;
     success: boolean;
@@ -70,141 +72,187 @@ const state: IInitialState = {
     },
     page: "LOADING",
 };
+async function fetchDataWithRetry<T>(
+    url: string,
+    options: RequestInit,
+    responseType: 'json' | 'blob' = 'json',
+    retryCount = 3,
+    timeout = 3000
+) {
+    let retries = 0;
+    while (retries < retryCount) {
+        try {
+            const response = await Promise.race([
+                fetch(url, options),
+                new Promise<Response>((_, reject) =>
+                    setTimeout(
+                        () => reject(new Error("Время ожидания истекло")),
+                        timeout
+                    )
+                ),
+            ]);
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(
+                    errorData.message || "Что-то пошло не по-плану..."
+                );
+            }
+            if (responseType !== "json") {
+                return response as T
+            }
+            const data: T = await response.json();
+            return data;
+        } catch (error) {
+            retries++;
+            if (retries === retryCount) {
+                const errorMessage =
+                    (error as Error).message || "Неизвестная ошибка";
+                throw new Error(
+                    `Ошибка после ${retryCount} попыток: ${errorMessage}`
+                );
+            }
+        }
+    }
+}
 export const REGISTR_USER = createAsyncThunk<
-    { success: boolean; message: string },
+    ResponseType,
     IAuthorization,
     {
         rejectValue: string;
     }
 >("page/REGISTR_USER", async ({ email, password }, { rejectWithValue }) => {
+    const url =
+        "https://personal-blog-server-nine.vercel.app/auth/registration";
+
+    const option: RequestInit = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            email,
+            password,
+        }),
+    };
     try {
-        const response = await fetch(
-            "https://personal-blog-server-nine.vercel.app/auth/registration",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email,
-                    password,
-                }),
-            }
-        );
-        const data = await response.json();
-        if (data.success) {
+        const data = await fetchDataWithRetry<ResponseType>(url, option);
+        if (data?.success) {
             return data;
         } else {
-            throw new Error(data.message);
+            throw new Error(data?.message);
         }
     } catch (error) {
         return rejectWithValue(`${error}`);
     }
 });
 export const AUTH_USER = createAsyncThunk<
-    { success: boolean; message: string; token: string },
+    ResponseType & { token: string },
     IAuthorization,
     {
         rejectValue: string;
     }
 >("page/AUTH_USER", async ({ email, password }, { rejectWithValue }) => {
+    const url = "https://personal-blog-server-nine.vercel.app/auth/login";
+    const option: RequestInit = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            email,
+            password,
+        }),
+    };
     try {
-        const response = await fetch(
-            "https://personal-blog-server-nine.vercel.app/auth/login",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email,
-                    password,
-                }),
-            }
+        const data = await fetchDataWithRetry<ResponseType & { token: string }>(
+            url,
+            option
         );
-        const data = await response.json();
-        if (data.token) {
+        if (data?.token) {
             return data;
         } else {
-            throw new Error(data.message);
+            throw new Error(data?.message);
         }
     } catch (error) {
         return rejectWithValue(`${error}`);
     }
 });
 export const FETCH_ALL_DATA = createAsyncThunk<
-    { success: boolean; message: string; data: IData },
+    ResponseType & { data: IData },
     undefined,
     { rejectValue: string; state: RootState }
 >("page/FETCH_ALL_DATA", async (_, { rejectWithValue, getState }) => {
+    const url = "https://personal-blog-server-nine.vercel.app/auth/getData";
+    const option: RequestInit = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getState().page.token}`,
+        },
+    };
     try {
-        const response = await fetch(
-            "https://personal-blog-server-nine.vercel.app/auth/getData",
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${getState().page.token}`,
-                },
-            }
+        const data = await fetchDataWithRetry<ResponseType & { data: IData }>(
+            url,
+            option
         );
-        const data = await response.json();
-        if (data.success) {
+        if (data?.success) {
             return data;
         } else {
-            throw new Error(data.message);
+            throw new Error(data?.message);
         }
     } catch (error) {
         return rejectWithValue(`${error}`);
     }
 });
 export const FETCH_POSTS = createAsyncThunk<
-    { success: boolean; message: string; data: IPost[] },
+    ResponseType & { data: IPost[] },
     undefined,
     { rejectValue: string; state: RootState }
 >("page/FETCH_POSTS", async (_, { rejectWithValue, getState }) => {
+    const url = `https://personal-blog-server-nine.vercel.app/auth/getPosts`;
+    const option: RequestInit = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getState().page.token}`,
+        },
+    };
     try {
-        const response = await fetch(
-            `https://personal-blog-server-nine.vercel.app/auth/getPosts`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${getState().page.token}`,
-                },
-            }
+        const data = await fetchDataWithRetry<ResponseType & { data: IPost[] }>(
+            url,
+            option
         );
-        const data = await response.json();
-        if (data.success) {
+        if (data?.success) {
             return data;
         } else {
-            throw new Error(data.message);
+            throw new Error(data?.message);
         }
     } catch (error) {
         return rejectWithValue(`${error}`);
     }
 });
 export const FETCH_POST = createAsyncThunk<
-    { success: boolean; message: string; data: IPost },
+    ResponseType & { data: IPost },
     string,
     { rejectValue: { message: string }; state: RootState }
 >("page/FETCH_POST", async (postId, { rejectWithValue, getState }) => {
+    const url = `https://personal-blog-server-nine.vercel.app/auth/getPost/${postId}`;
+    const option: RequestInit = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getState().page.token}`,
+        },
+    };
     try {
-        const response = await fetch(
-            `https://personal-blog-server-nine.vercel.app/auth/getPost/${postId}`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${getState().page.token}`,
-                },
-            }
+        const data = await fetchDataWithRetry<ResponseType & { data: IPost }>(
+            url,
+            option
         );
-        const data = await response.json();
-        if (data.success) {
+        if (data?.success) {
             return data;
         } else {
-            throw new Error(data.message);
+            throw new Error(data?.message);
         }
     } catch (error) {
         return rejectWithValue({
@@ -214,52 +262,53 @@ export const FETCH_POST = createAsyncThunk<
     }
 });
 export const FETCH_WORKS = createAsyncThunk<
-    { success: boolean; message: string; data: IWorks[] },
+    ResponseType & { data: IWorks[] },
     undefined,
     { rejectValue: string; state: RootState }
 >("page/FETCH_WORKS", async (_, { rejectWithValue, getState }) => {
+    const url = `https://personal-blog-server-nine.vercel.app/auth/getWorks`;
+    const option: RequestInit = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getState().page.token}`,
+        },
+    };
     try {
-        const response = await fetch(
-            `https://personal-blog-server-nine.vercel.app/auth/getWorks`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${getState().page.token}`,
-                },
-            }
-        );
-        const data = await response.json();
-        if (data.success) {
+        const data = await fetchDataWithRetry<
+            ResponseType & { data: IWorks[] }
+        >(url, option);
+        if (data?.success) {
             return data;
         } else {
-            throw new Error(data.message);
+            throw new Error(data?.message);
         }
     } catch (error) {
         return rejectWithValue(`${error}`);
     }
 });
 export const FETCH_WORK = createAsyncThunk<
-    { success: boolean; message: string; data: IWorks },
+    ResponseType & { data: IWorks },
     string,
     { rejectValue: { message: string }; state: RootState }
 >("page/FETCH_WORK", async (workId, { rejectWithValue, getState }) => {
+    const url = `https://personal-blog-server-nine.vercel.app/auth/getWork/${workId}`;
+    const option: RequestInit = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getState().page.token}`,
+        },
+    };
     try {
-        const response = await fetch(
-            `https://personal-blog-server-nine.vercel.app/auth/getWork/${workId}`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${getState().page.token}`,
-                },
-            }
+        const data = await fetchDataWithRetry<ResponseType & { data: IWorks }>(
+            url,
+            option
         );
-        const data = await response.json();
-        if (data.success) {
+        if (data?.success) {
             return data;
         } else {
-            throw new Error(data.message);
+            throw new Error(data?.message);
         }
     } catch (error) {
         return rejectWithValue({
@@ -273,18 +322,18 @@ export const FETCH_FILE = createAsyncThunk<
     undefined,
     { rejectValue: string; state: RootState }
 >("page/FETCH_FILE", async (_, { rejectWithValue, getState }) => {
+    const apiUrl =
+        "https://personal-blog-server-nine.vercel.app/auth/downloadResume";
+    const option: RequestInit = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getState().page.token}`,
+        },
+    };
     try {
-        const response = await fetch(
-            "https://personal-blog-server-nine.vercel.app/auth/downloadResume",
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${getState().page.token}`,
-                },
-            }
-        );
-        const blob = await response.blob();
+        const data = await fetchDataWithRetry<any>(apiUrl, option, "blob");
+        const blob = await data.blob()
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
@@ -295,26 +344,26 @@ export const FETCH_FILE = createAsyncThunk<
     }
 });
 export const FETCH_CONTACT = createAsyncThunk<
-    { success: boolean; message: string; data: IContact },
+    ResponseType & { data: IContact },
     undefined,
     { rejectValue: string; state: RootState }
 >("page/FETCH_CONTACT", async (_, { rejectWithValue, getState }) => {
+    const url = `https://personal-blog-server-nine.vercel.app/auth/getContact`;
+    const option: RequestInit = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getState().page.token}`,
+        },
+    };
     try {
-        const response = await fetch(
-            `https://personal-blog-server-nine.vercel.app/auth/getContact`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${getState().page.token}`,
-                },
-            }
-        );
-        const data = await response.json();
-        if (data.success) {
+        const data = await fetchDataWithRetry<
+            ResponseType & { data: IContact }
+        >(url, option);
+        if (data?.success) {
             return data;
         } else {
-            throw new Error(data.message);
+            throw new Error(data?.message);
         }
     } catch (error) {
         return rejectWithValue(`${error}`);
@@ -326,7 +375,7 @@ const slice = createSlice({
     initialState: state,
     reducers: {
         SET_PAGE: (state, action) => {
-            state.page = action.payload
+            state.page = action.payload;
         },
         SET_SHOWMODAL: (state, action) => {
             state.showModal = action.payload;
@@ -448,11 +497,12 @@ const slice = createSlice({
                 success: true,
                 showModal: true,
                 message: action.payload.message,
-                contact: action.payload.data
+                contact: action.payload.data,
             };
         });
     },
 });
 
-export const { SET_PAGE, SET_SHOWMODAL, SET_USER_DATA, SET_TRANSITION } = slice.actions;
+export const { SET_PAGE, SET_SHOWMODAL, SET_USER_DATA, SET_TRANSITION } =
+    slice.actions;
 export default slice.reducer;
