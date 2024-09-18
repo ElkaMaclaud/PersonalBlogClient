@@ -11,7 +11,7 @@ const Works = () => {
             <div className={classes.worksHeaderNew}>Featured works</div>
             <div className={classes.worksWrapper}>
                 {works.length > 0 &&
-                    works.map((work) => {
+                    works.slice(0, 3).map((work) => {
                         const key = Math.random().toString(30).substring(2, 15);
                         return (
                             <Link to={`/work/${work._id}`} key={key}>
