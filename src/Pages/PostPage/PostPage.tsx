@@ -10,7 +10,7 @@ const PostPage = () => {
     // const id = segments[segments.length - 1];
     const { id } = useParams();
     const [post, setPost] = useState<IPost>({
-        id: id || "2",
+        _id: id || "2",
         header: "",
         date: "",
         category: "",

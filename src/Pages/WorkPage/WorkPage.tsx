@@ -8,7 +8,7 @@ import classes from "./style/WorkPage.module.css";
 const WorkPage = () => {
     const { id } = useParams();
     const [work, setWork] = useState<IWorks>({
-        id: id || "1",
+        _id: id || "1",
         image: "",
         date: "",
         header: "",

@@ -13,14 +13,14 @@ export type IResume = {
     description: string;
 };
 export type IPost = {
-    id: string;
+    _id: string;
     header: string;
     date: string;
     category: string;
     description: string;
 };
 export type IWorks = {
-    id: string;
+    _id: string;
     header: string;
     image: string;
     date: string;

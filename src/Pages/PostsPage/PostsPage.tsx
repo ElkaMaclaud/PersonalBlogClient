@@ -16,7 +16,7 @@ const PostsPage = () => {
       <div className={classes.wrapperPosts}>
        {posts.map((post) => {
           const key = Math.random().toString(30).substring(2, 15)
-          return <Link to={`/post/${post.id}`} key={key} ><CardPost {...post} /></Link>
+          return <Link to={`/post/${post._id}`} key={key} ><CardPost {...post} /></Link>
        })}
       </div>
     )

@@ -14,7 +14,7 @@ const Works = () => {
                     works.map((work) => {
                         const key = Math.random().toString(30).substring(2, 15);
                         return (
-                            <Link to={`/work/${work.id}`} key={key}>
+                            <Link to={`/work/${work._id}`} key={key}>
                                 <CardWorks {...work} />
                             </Link>
                         );
