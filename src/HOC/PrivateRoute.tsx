@@ -9,21 +9,41 @@ const PrivateRoute: FC<{ children: ReactNode }> = ({
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (page === "COMPLICATED") {
-            navigate("/blog", { replace: true });
-            window.history.pushState(null, "", window.location.href);
-            window.onpopstate = function (event) {
-                const currentPath = window.location.pathname;
-                if (currentPath === "/registration" || currentPath === "/auth") {
-                    // window.history.replaceState(null, "", "/blog");
-                    navigate("/blog");
-                }
-            };
+        const currentPath = window.location.pathname;
+        const storedHistory = JSON.parse(sessionStorage.getItem("history") || "[]");
+
+        if (currentPath === "/auth" && page === "COMPLICATED") {
+            if (!storedHistory.includes(currentPath)) {
+                storedHistory.push(currentPath);
+                sessionStorage.setItem("history", JSON.stringify(storedHistory));
+            }
+            navigate("/blog");
+        } else {
+            if (!storedHistory.includes(currentPath)) {
+                storedHistory.push(currentPath);
+                sessionStorage.setItem("history", JSON.stringify(storedHistory));
+            }
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+
+        const handlePopState = () => {
+            const previousPath = storedHistory[storedHistory.length - 2];
+            if (previousPath === "/registration" || previousPath === "/auth" || previousPath === "/") {
+                navigate("/blog");
+            } else {
+                navigate(previousPath);
+            }
+        };
+
+        window.onpopstate = handlePopState;
+
+        return () => {
+            window.onpopstate = null; 
+        };
+    }, [page, navigate]);
 
     return <Fragment>{children}</Fragment>;
 };
 
 export default PrivateRoute;
+
+
