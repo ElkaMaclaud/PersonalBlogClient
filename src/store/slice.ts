@@ -75,7 +75,7 @@ const state: IInitialState = {
 async function fetchDataWithRetry<T>(
     url: string,
     options: RequestInit,
-    responseType: 'json' | 'blob' = 'json',
+    responseType: 'json' | 'blob' | 'text' | 'document' = 'json',
     retryCount = 3,
     timeout = 3000
 ) {
@@ -113,6 +113,7 @@ async function fetchDataWithRetry<T>(
             }
         }
     }
+    throw new Error("Не удалось получить данные после всех попыток.");
 }
 export const REGISTR_USER = createAsyncThunk<
     ResponseType,
@@ -136,10 +137,10 @@ export const REGISTR_USER = createAsyncThunk<
     };
     try {
         const data = await fetchDataWithRetry<ResponseType>(url, option);
-        if (data?.success) {
+        if (data.success) {
             return data;
         } else {
-            throw new Error(data?.message);
+            throw new Error(data.message);
         }
     } catch (error) {
         return rejectWithValue(`${error}`);
@@ -168,10 +169,10 @@ export const AUTH_USER = createAsyncThunk<
             url,
             option
         );
-        if (data?.token) {
+        if (data.token) {
             return data;
         } else {
-            throw new Error(data?.message);
+            throw new Error(data.message);
         }
     } catch (error) {
         return rejectWithValue(`${error}`);
@@ -195,10 +196,10 @@ export const FETCH_ALL_DATA = createAsyncThunk<
             url,
             option
         );
-        if (data?.success) {
+        if (data.success) {
             return data;
         } else {
-            throw new Error(data?.message);
+            throw new Error(data.message);
         }
     } catch (error) {
         return rejectWithValue(`${error}`);
@@ -222,10 +223,10 @@ export const FETCH_POSTS = createAsyncThunk<
             url,
             option
         );
-        if (data?.success) {
+        if (data.success) {
             return data;
         } else {
-            throw new Error(data?.message);
+            throw new Error(data.message);
         }
     } catch (error) {
         return rejectWithValue(`${error}`);
@@ -249,10 +250,10 @@ export const FETCH_POST = createAsyncThunk<
             url,
             option
         );
-        if (data?.success) {
+        if (data.success) {
             return data;
         } else {
-            throw new Error(data?.message);
+            throw new Error(data.message);
         }
     } catch (error) {
         return rejectWithValue({
@@ -278,10 +279,10 @@ export const FETCH_WORKS = createAsyncThunk<
         const data = await fetchDataWithRetry<
             ResponseType & { data: IWorks[] }
         >(url, option);
-        if (data?.success) {
+        if (data.success) {
             return data;
         } else {
-            throw new Error(data?.message);
+            throw new Error(data.message);
         }
     } catch (error) {
         return rejectWithValue(`${error}`);
@@ -305,10 +306,10 @@ export const FETCH_WORK = createAsyncThunk<
             url,
             option
         );
-        if (data?.success) {
+        if (data.success) {
             return data;
         } else {
-            throw new Error(data?.message);
+            throw new Error(data.message);
         }
     } catch (error) {
         return rejectWithValue({
@@ -318,7 +319,7 @@ export const FETCH_WORK = createAsyncThunk<
     }
 });
 export const FETCH_FILE = createAsyncThunk<
-    any,
+    unknown,
     undefined,
     { rejectValue: string; state: RootState }
 >("page/FETCH_FILE", async (_, { rejectWithValue, getState }) => {
@@ -332,7 +333,7 @@ export const FETCH_FILE = createAsyncThunk<
         },
     };
     try {
-        const data = await fetchDataWithRetry<any>(apiUrl, option, "blob");
+        const data = await fetchDataWithRetry<Response>(apiUrl, option, "blob");
         const blob = await data.blob()
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -360,10 +361,10 @@ export const FETCH_CONTACT = createAsyncThunk<
         const data = await fetchDataWithRetry<
             ResponseType & { data: IContact }
         >(url, option);
-        if (data?.success) {
+        if (data.success) {
             return data;
         } else {
-            throw new Error(data?.message);
+            throw new Error(data.message);
         }
     } catch (error) {
         return rejectWithValue(`${error}`);
