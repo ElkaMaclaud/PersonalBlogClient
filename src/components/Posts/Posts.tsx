@@ -25,6 +25,7 @@ const Posts = () => {
                         );
                     })}
             </div>
+            <Link to="/posts"><div className={classes.postsHeaderAll}>View all</div></Link>
         </div>
     );
 };
