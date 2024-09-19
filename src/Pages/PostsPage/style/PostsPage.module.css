@@ -1,8 +1,7 @@
 .wrapperPosts {
-    width: 100%;
+    max-width: 100%;
     height: fit-content;
-    margin: 50px;
-	padding: 41px 147px 41px 147px;
+	padding: 41px 147px;
 	background-color: #EDF7FA;
     display: flex;
     flex-direction: column;
