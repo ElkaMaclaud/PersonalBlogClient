@@ -10,40 +10,17 @@ const PrivateRoute: FC<{ children: ReactNode }> = ({
 
     useEffect(() => {
         const currentPath = window.location.pathname;
-        const storedHistory = JSON.parse(sessionStorage.getItem("history") || "[]");
-
-        if (currentPath === "/auth" && page === "COMPLICATED") {
-            if (!storedHistory.includes(currentPath)) {
-                storedHistory.push(currentPath);
-                sessionStorage.setItem("history", JSON.stringify(storedHistory));
-            }
-            navigate("/blog");
-        } else {
-            if (!storedHistory.includes(currentPath)) {
-                storedHistory.push(currentPath);
-                sessionStorage.setItem("history", JSON.stringify(storedHistory));
-            }
+        if (
+            (currentPath === "/auth" ||
+                currentPath === "/registration" ||
+                currentPath === "/") &&
+            page === "COMPLICATED"
+        ) {
+            navigate("/blog", { replace: true });
         }
-
-        const handlePopState = () => {
-            const previousPath = storedHistory[storedHistory.length - 2];
-            if (previousPath === "/registration" || previousPath === "/auth" || previousPath === "/") {
-                navigate("/blog");
-            } else {
-                navigate(previousPath);
-            }
-        };
-
-        window.onpopstate = handlePopState;
-
-        return () => {
-            window.onpopstate = null; 
-        };
     }, [page, navigate]);
 
     return <Fragment>{children}</Fragment>;
 };
 
 export default PrivateRoute;
-
-

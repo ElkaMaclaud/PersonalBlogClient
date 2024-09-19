@@ -21,6 +21,9 @@
 .header > *:hover {
     color: blue
 }
+.active {
+    color: blue;
+}
 
 .headerMobile {
     display: none;
