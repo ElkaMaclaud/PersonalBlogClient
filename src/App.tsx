@@ -26,9 +26,9 @@ function App() {
             token !== null ? navigate("/auth") : navigate("/registration");
         } else if (page === "LOADING") {
             dispatch(FETCH_ALL_DATA());
-        } 
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page, token]);
+    }, [page, dispatch]);
     interface Elements {
         [key: string]: ReactElement;
     }
@@ -46,7 +46,7 @@ function App() {
                 <Routes>
                     <Route path={"/"} element={<MainPage />}>
                         {Object.keys(routes).map((route) => {
-                            if (route === "work") {
+                             if (route === "work") {
                                 return (
                                     <Route
                                         key={Math.random().toString(36)}
